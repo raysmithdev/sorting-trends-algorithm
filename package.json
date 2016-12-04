@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/raysmithdev/sorting-trends-algorithm/issues"
   },
-  "homepage": "https://github.com/raysmithdev/sorting-trends-algorithm#readme"
+  "homepage": "https://github.com/raysmithdev/sorting-trends-algorithm#readme",
+  "dependencies": {
+    "prettyjson": "^1.2.1",
+    "twitter": "^1.5.0"
+  }
 }

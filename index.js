@@ -1,22 +1,33 @@
-const lastMentioned = (a,b) => a.last_mention - b.last_mention
+const Twitter = require('twitter')
+const prettyjson = require('prettyjson')
+const env = require('./config')
 
-const mentions = (a,b) => {
-  if(a.mentions === b.mentions)
-    return a.last_mention - b.last_mention
-    
+const client = new Twitter({
+  consumer_key: env.consumer_key,
+  consumer_secret: env.consumer_secret,
+  access_token_key: env.access_token_key,
+  access_token_secret: env.access_token_secret
+});
+
+const trendings = []
+
+client.stream('statuses/filter', {track: 'beer'},  function(stream) {
+  stream.on('data', tweet => {
+    console.log(prettyjson.render(tweet.text))
+    trendings.push(tweet)
+    trendings.sort(favourites)
+  });
+
+  stream.on('error', error => console.log(error))
+});
+
+const favourites = (a,b) => {
+  console.log(a.favorite_count);
+  if(a.favorite_count === b.favorite_count)
+    return a.favorite_count - b.favorite_count
+
   return false
 }
 
-// TODO: change trendings array with actual data from Twitter API for example
 
-const trendings= [
-    {name: "christmas", mentions: 56, last_mention: 12},
-    {name: "spring", mentions: 89, last_mention: 11},
-    {name: "halloween", mentions: 64, last_mention: 34},
-    {name:"summer", mentions: 200, last_mention: 4}
-]
-
-trendings.sort(lastMentioned)
-trendings.sort(mentions)
-
-console.log(trendings)
+// console.log(trendings)
